@@ -7,7 +7,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Image View Page</h1>
+        <h1>Current Image</h1>
         <div class="row">
             <div class="col-md-4">
                 <div class="thumbnail">
@@ -16,10 +16,48 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="caption">
+                    <label><h4>GOOD IMAGE</h4></label><br/>
+                    <img style="height: 100px; width: 100px;" class="center" src="https://s3-ap-southeast-1.amazonaws.com/soc-dashboard/images/5aa28e929e7f91e3fd7a1e7427fc0d21.jpg">
+                    <img style="height: 100px; width: 100px;" class="center" src="https://images.soco.id/429594.png">
+                </div>
+                <div>
+                    <ol>
+                        <li>Full face</li>
+                        <li>Centered Face</li>
+                        <li>Not Blurry</li>
+                        <li>No hand on face</li>
+                        <li>No strickers</li>
+
+                    </ol>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="caption">
+                <label><h4>BAD IMAGE</h4></label><br/>
+                <img style="height: 100px; width: 100px;" class="center" src="https://s3-ap-southeast-1.amazonaws.com/soc-dashboard/images/5d975cd66f6ab8b2e180c91043febb46.png">
+                <img style="height: 100px; width: 100px;" class="center" src="https://s3-ap-southeast-1.amazonaws.com/soc-dashboard/images/0ef00aef5a4b887b182efaa5058f86f3.png">
+            </div>
+            <div>
+                <ol>
+                    <li>Cropped Face(forehead not included)</li>
+                    <li>Centered Face</li>
+                    <li>Blurry and shaky</li>
+                    <li>Object on face</li>
+                    <li>Strickers and Filter</li>
+
+                </ol>
+            </div>
+    </div>
         </div>
         <div>
             <button onclick="save('<%= result._id %>', 1)">Yes</button>
             <button onclick="save('<%= result._id %>', 0)">No</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
         </div>
     </div>
 </body>
@@ -28,13 +66,13 @@
         const xhr = new XMLHttpRequest();
         xhr.onload = function () {
             if (xhr.status >= 200 && xhr.status < 300) {
-                console.log(xhr.responseText);
+                //console.log(xhr.responseText);
                 window.location.reload()
             } else {
-                console.log(xhr.responseText);
+                //console.log(xhr.responseText);
             }
         };
-        xhr.open('PUT', `http://localhost:3001/saveimage/${id}/${action === 1}`);
+        xhr.open('PUT', `http://13.250.11.181:3002/saveimage/${id}/${action === 1}`);
         xhr.send();
     }
 </script>
