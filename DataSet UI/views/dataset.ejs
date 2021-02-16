@@ -12,7 +12,7 @@
             <div class="col-md-4">
                 <div class="thumbnail">
                     <div class="caption">
-                        <img style="height: 400px; width: 300px;" class="center" src="<%= result.image_url %>">
+                        <img style="height: 400px; width: 330px;" class="center" src="<%= result.image_url %>">
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                         <li>Centered Face</li>
                         <li>Not Blurry</li>
                         <li>No hand on face</li>
-                        <li>No strickers</li>
+                        <li>No stickers</li>
 
                     </ol>
             </div>
@@ -42,18 +42,25 @@
             <div>
                 <ol>
                     <li>Cropped Face(forehead not included)</li>
-                    <li>Centered Face</li>
+                    <li>Face not in center</li>
                     <li>Blurry and shaky</li>
                     <li>Object on face</li>
-                    <li>Strickers and Filter</li>
+                    <li>Stickers and Filter</li>
 
                 </ol>
             </div>
     </div>
+    <div class="col-md-4">
+        <div class="caption">
+            <label><h5>Pending Images Count---> <%= pendingCount %></h5></label><br/>
+            <label><h5>Shortlisted Images Count---> <%= reviewCount %></h5></label><br/>
+            <label><h5>Fpp Images Count---> <%= fppCount %></h5></label><br/>
+        </div>
+    </div>
         </div>
         <div>
-            <button onclick="save('<%= result._id %>', 1)">Yes</button>
-            <button onclick="save('<%= result._id %>', 0)">No</button>
+            <button class="btn btn-success btn-lg" onclick="save('<%= result._id %>', 1)">Yes</button>
+            <button class="btn btn-danger btn-lg" onclick="save('<%= result._id %>', 0)">No</button>
         </div>
     </div>
     <div class="container">
@@ -72,7 +79,7 @@
                 //console.log(xhr.responseText);
             }
         };
-        xhr.open('PUT', `http://13.250.11.181:3002/saveimage/${id}/${action === 1}`);
+        xhr.open('PUT', `http://54.151.164.170:3002/saveimage/${id}/${action === 1}`);
         xhr.send();
     }
 </script>

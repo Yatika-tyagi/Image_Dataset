@@ -16,6 +16,7 @@
     "express": "^4.17.1",
     "mongodb": "^3.6.3",
     "multer": "^1.4.1",
-    "tedious": "^6.2.0"
+    "tedious": "^6.2.0",
+    "webcam-easy": "^1.0.5"
   }
 }

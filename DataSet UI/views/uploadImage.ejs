@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Upload Image</title>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Upload Image</h1>
+        <br>
+        <br />canvas:<br />
+        <canvas id="canvas" width=224 height=224></canvas>
+        <canvas id="canvas1" width=224 height=224></canvas>
+
+        <input type="file" id="input" />
+        <br />base64 output:<br />
+        <textarea id="file_output"></textarea>
+        <br />result:<br />
+        <textarea id="face_shape"></textarea>
+        <div><button class="btn btn-primary" type="submit" value="upload" onclick="save(this)">Send</button></div>
+    </div>
+</body>
+<script>
+    var base64Image
+    var inputFile
+    var faceShapes = ""
+
+    async function save() {
+
+        var arr = { "image": base64Image };
+        console.log(arr)
+
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", 'http://54.151.164.170:3002/faceupload', true);
+
+        //Send the proper header information along with the request
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        xhr.onreadystatechange = function () { // Call a function when the state changes.
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                // Request finished. Do processing here.
+                console.log(xhr.response);
+                var face_shape = document.getElementById('face_shape');
+                face_shape.value = xhr.response
+
+            }
+        }
+        console.log(typeof base64Image)
+        xhr.send(base64Image);
+    }
+
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    var canvas1 = document.getElementById("canvas1");
+    var ctx1 = canvas1.getContext("2d");
+    var cw = canvas.width;
+    var ch = canvas.height;
+    var maxW = 224;
+    var maxH = 224;
+
+    var input = document.getElementById('input');
+    var output = document.getElementById('file_output');
+    input.addEventListener('change', handleFiles);
+
+    function handleFiles(e) {
+        var img = new Image;
+        img.onload = function () {
+            var iw = img.width;
+            var ih = img.height;
+            var ratio
+
+            console.log("111",iw,ih)
+
+            if(iw>ih){
+                ratio = iw/ih
+                iw = ratio * maxH
+                ih = maxH
+            }else{
+                ratio = ih/iw
+                ih = ratio * maxW
+                iw = maxW
+            }
+
+            console.log("2222",iw,ih)
+            //var scale = Math.min((maxW / iw), (maxH / ih));
+
+            //var iwScaled = iw * scale;
+            //var ihScaled = ih * scale;
+            //canvas.width = iwScaled;
+            //canvas.height = ihScaled;
+            canvas.width = iw
+            canvas.height = ih
+
+           // ctx.drawImage(img, 0, 0, iwScaled, ihScaled);
+            ctx.drawImage(img, 0, 0, iw, ih);
+
+           // ctx1.drawImage(img, 0, 0, cw, ch);
+            output.value = canvas.toDataURL("image/jpeg", 0.5);
+            base64Image = canvas.toDataURL("image/jpeg", 0.5);
+
+        }
+ 
+        img.src = URL.createObjectURL(e.target.files[0]);
+    }
+
+</script>
+<style>
+    body {
+        padding: 40px;
+    }
+
+    #canvas {
+        border: 1px solid red;
+    }
+
+    textarea {
+        width: 100%;
+        height: 150px;
+    }
+</style>
+
+</html>
